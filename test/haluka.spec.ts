@@ -1,14 +1,16 @@
 import 'mocha'
 import { expect } from 'chai'
-import Application, { VersionRetrievalError } from '../src/Haluka/Application'
+import Application, { VersionRetrievalError } from '../src/Application/Application'
 import { Logger } from '../src/Logger'
 import * as path from 'path'
-import * as haluka from "../src/index";
+// import * as haluka from "../src/index";
 
 describe('Haluka', function () {
 
 	it('shall be instantiable', function () {
-		haluka
+		Application.getInstance()
+		
+		// haluka
 		var app = new Application()
 		var app1 = new Application('./test/support')
 		
@@ -23,13 +25,20 @@ describe('Haluka', function () {
 	})
 
 	it('shall work', function () {
-		var app = new Application()
+		var app = new Application(__dirname + '/example')
 
-		expect(app.version()).to.eq(require('../package.json').version)
+		expect(app.version()).to.eq(require('./example/package.json').version)
 		expect(app.isLocal()).to.eq(false)
 		expect(app.isProduction()).to.eq(false)
 		expect(app.isTesting()).to.eq(true)
 		expect(app.isDebugging()).to.eq(false)
+
+		app.boot({
+			providers: [],
+			aliases: { DB: 'Haluka/Database'},
+			globalMiddlewares: [],
+			namedMiddlewares: {}
+		})
 
 		app.terminate()
 
@@ -37,28 +46,13 @@ describe('Haluka', function () {
 
 	it('shall terminate', function () {
 		var app = new Application('./test')
-
+		
 		app.terminating(() => {
-			var log: Logger = app.use('Log')
+			var log: Logger = app.resolve<Logger>('Log')
 			log.log('warn', 'Application is terminating.')
 		})
 
 		app.terminate()
-	})
-
-	it('shall bootstrap HTTP', function () {
-		var app = new Application('./test')
-		app.bootstrapHttp(1111, { routes: "", controllers: "" });
-
-		// for coverage
-		app.save('Haluka/Core/Events', null)
-		app.unregister('Haluka/Core/Events')
-		
-		app.bootstrapHttp(1111, { routes: "", controllers: "" });
-		
-		app.terminate()
-
-
 	})
 
 	describe('#path methods', function () {

@@ -15,6 +15,7 @@ export default class ServiceProvider {
 		this.app = app
 	}
 
+	/* istanbul ignore next */
 	public register ():void {
 		throw new TypeError('Method not implemented.')
 	}

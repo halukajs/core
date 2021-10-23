@@ -1,5 +1,5 @@
 'use strict'
-import { EventEmitter2 as EventEmitter, Listener, ConstructorOptions } from 'eventemitter2'
+import { EventEmitter2 as EventEmitter, ListenerFn, ConstructorOptions } from 'eventemitter2'
 
 /**
  * @name Emitter
@@ -27,7 +27,7 @@ export class Emitter extends EventEmitter{
 	 * @param event Event name to listen to
 	 * @param listener Callback to execute on event
 	 */
-	public on (event: string | Array<string>, listener: Listener): this {
+	public on (event: string | Array<string>, listener: ListenerFn): this {
 		super.on(event, function(...args) {
 			listener(event, ...args)
 		})

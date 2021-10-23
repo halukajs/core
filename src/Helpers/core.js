@@ -2,7 +2,7 @@
 
 var c = global
 
-var Application = require('../Haluka/Application').default
+var Application = require('../Application/Application').default
 
 /* istanbul ignore else */ 
 c.use = function (provider, params) {

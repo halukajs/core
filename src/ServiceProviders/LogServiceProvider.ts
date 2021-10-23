@@ -16,13 +16,13 @@ export default class LogServiceProvider extends ServiceProvider implements IServ
 	 * Registers Service Provider
 	 */
 	public register (): void {
-		this.app.bind({
+		this.app.register({
 			provider: {
 				name: 'Haluka/Core/Logger',
 				alias: 'Log'
 			}, 
-			content: function (app: Application, config?) {
-				return new Logger(config || app.get<Config>('Haluka/Core/Config').get('log'))
+			content: function (app: Application) {
+				return new Logger(app.get<Config>('Haluka/Core/Config').get('log'))
 			}
 		})
 	}

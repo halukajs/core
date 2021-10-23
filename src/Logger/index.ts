@@ -10,6 +10,7 @@ import { DriverNotFoundException, TransportNotFoundException } from './Exception
 import ILoggerConfig from './ILoggerConfig'
 
 import * as SlackHook from 'winston-slack-webhook-transport'
+import _ = require('lodash')
 
 /**
  * Logger Class
@@ -26,19 +27,16 @@ export class Logger {
 	 * @param {ILoggerConfig} config Configurations for the logger
 	 */
 	constructor (config: ILoggerConfig) {
+		config.uses = _.castArray(config.uses)
+
 		this.config = config
-
-		// convert to array if not already array
-		if (typeof config.uses === 'string') {
-			config.uses = [config.uses]
-		}
-
+		
 		config.uses.forEach(transport => {
 			if (config.transports[transport]) {
 				const tconf = config.transports[transport]
 				if (tconf.driver === undefined)
 					throw new DriverNotFoundException(`Driver config key not found for transport '${transport}'.`)
-				if (typeof this[tconf.driver + 'Transport'] === 'function')
+				if (typeof(this[tconf.driver + 'Transport']) === 'function')
 					this[transport + 'Transport'](tconf)
 				else
 					throw new DriverNotFoundException(`Driver '${tconf.driver}' not available for transport '${transport}'.`)

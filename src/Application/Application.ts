@@ -309,11 +309,13 @@ export default class Application extends Container {
 	public boot (appData: ApplicationData) {
  
 		// Providers
+		/* istanbul ignore next */
 		for (let providerPath of appData.providers) {
 			if (providerPath.startsWith('$')) {
 				const loadvar = providerPath.substr(1, providerPath.indexOf('/') - 1) 
 				providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`
 			}
+
 			// eslint-disable-next-line
 			const providerClass = require(providerPath).default
 			if (!(providerClass instanceof Function)) {
@@ -346,8 +348,6 @@ export default class Application extends Container {
 			Haluka: 'app',
 			Container: 'app',
 			Console: 'Haluka/Core/Console',
-			Http: 'Haluka/Core/Http',
-			Router: 'Haluka/Core/Http/Router',
 		}
 		for (const alias in aliases) {
 			this.alias(alias, aliases[alias])
@@ -367,11 +367,11 @@ export default class Application extends Container {
 	/**
 	 * Gets the currently globally set container instance
 	 */
-	public static getInstance (): Application {
+	public static getInstance (opts?: string): Application {
 		if (Application.instance !== undefined) {
 			return Application.instance
 		}
-		return Application.instance = new Application()
+		return Application.instance = new Application(opts)
 	}
  
 }

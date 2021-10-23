@@ -1,6 +1,6 @@
 import 'mocha'
 import { expect } from 'chai'
-import Application from '../src/Haluka/Application'
+import Application from '../src/Application/Application'
 
 describe('Helpers', function () {
 
@@ -17,8 +17,8 @@ describe('Helpers', function () {
                 expect(Application.getInstance()).to.eql(application)
                 expect(Application.getInstance()).to.eql(app())
 
-                application.save('APP1', { a: 'b' })
-                app().save('APP2', { b: 'c' })
+                application.save({name :'APP1', alias: 'APPL1'}, { a: 'b' })
+                app().save({name :'APP2', alias: 'APPL2'}, { b: 'c' })
 
                 expect(app()).to.deep.equal(application)
                 

@@ -42,6 +42,8 @@
   "dependencies": {
     "@haluka/box": "^1.2.1",
     "dotenv": "^10.0.0",
+    "eventemitter2": "^6.4.5",
+    "lodash": "^4.17.21",
     "randomstring": "^1.2.1",
     "require-all": "^3.0.0",
     "winston": "^3.3.3",

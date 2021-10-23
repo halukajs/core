@@ -18,9 +18,9 @@ describe('Emitter', function () {
 
 			// String Event
 			expect(function () {
-				emitter.on('boot', function (event) {
-					expect(event).to.equal('boot')
-				})
+				emitter.on('boot', (event: any) => {
+						expect(event).to.equal('boot')
+					})
 			}).to.not.throw()
 
 		})

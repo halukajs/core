@@ -1,8 +1,7 @@
 import 'mocha'
 import { expect } from 'chai'
-import Application from '../src/Haluka/Application'
+import Application from '../src/Application/Application'
 import { Console, CommandException } from '../src/Console'
-import { Container } from '../src/Container'
 
 describe('Console', function () {
 
@@ -42,7 +41,7 @@ describe('Console', function () {
     this.afterAll(() => {
         new_app.terminate()
         //@ts-ignore
-        delete(Container.instance)
+        delete(Application.instance)
     })
 
 })

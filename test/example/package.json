@@ -1,0 +1,6 @@
+{
+    "version": "2.0.0",
+    "autoLoad" : {
+        "auto1": "Haluka/Core"
+    }
+}

@@ -16,7 +16,7 @@ describe('Exceptions', function () {
 
 		try {
 			throw new Exceptions.FatalException("Something failed again", 'ESFA')
-		} catch (error) {
+		} catch (error: any) {
 			expect(error.message).to.equal('Something failed again')
 			expect(error.code).to.equal('ESFA')
 			expect(error.type).to.equal('FatalException')	
