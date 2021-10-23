@@ -1,7 +1,9 @@
 'use strict'
+
+// eslint-disable-next-line
 const debug = require('debug')('haluka:framework')
 import { FatalException } from '../Exceptions'
-import requireAll = require('require-all')
+import * as requireAll from 'require-all'
 import * as _ from'lodash'
 
 /**
@@ -46,7 +48,7 @@ export class Config {
 				filter: /(.*)\.js$/
 			})
 			debug('loaded configs from %s', configPath)
-		} catch (error)  /* istanbul ignore next */ {
+		} catch (error: any)  /* istanbul ignore next */ {
 			if (error.code !== 'ENOENT') throw error // error in case of invalid path
 		}
 	}

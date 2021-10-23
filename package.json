@@ -38,5 +38,13 @@
     "nyc": "^15.1.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "@haluka/box": "^1.2.1",
+    "dotenv": "^10.0.0",
+    "randomstring": "^1.2.1",
+    "require-all": "^3.0.0",
+    "winston": "^3.3.3",
+    "winston-slack-webhook-transport": "^2.1.0"
   }
 }

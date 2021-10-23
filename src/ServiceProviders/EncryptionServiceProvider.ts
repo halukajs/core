@@ -1,5 +1,4 @@
 
-import Application from '../Application/Application'
 import ServiceProvider from '../Application/ServiceProvider'
 import { IServiceProvider } from '../Application/ServiceProvider'
 import { Encryptor } from '../Encryption'
@@ -16,7 +15,7 @@ export default class EncryptionServiceProvider extends ServiceProvider implement
 	 * Registers Service Provider
 	 */
 	public register (): void {
-		this.app.singleton('Haluka/Core/Encryptor', function (app: Application) {
+		this.app.singleton('Haluka/Core/Encryptor', function () {
 			const key = config('app.key')
 			if (!key) throw new FatalException('No Application Key Found in .env file')
 			return new Encryptor(key, config('app.cipher'))

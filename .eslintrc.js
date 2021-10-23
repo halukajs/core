@@ -39,6 +39,8 @@ module.exports = {
 	},
 	'ignorePatterns': [
 		'test/*',
-		'build/*'
+		'build/*',
+		'types/*',
+		'*.js'
 	]
 }

@@ -1,7 +1,7 @@
 'use strict'
-import * as _ from'lodash'
+
 import { Exception } from '../Exceptions'
-import Application from '../Haluka/Application'
+import Application from '../Application/Application'
 
 /**
  * @name Console
@@ -57,7 +57,7 @@ export class Console {
      * @param cmd Command name
      * @param args Command line arguments
      */
-	execute (cmd: string, args: Object, params: Array<string>) {
+	execute (cmd: string, args: KeyValue, params: Array<string>) {
 		const method = this.getCommandMethod(cmd)
 		if (!method) {
 			throw new CommandException(`Command '${cmd}' not found.`)
@@ -66,8 +66,8 @@ export class Console {
 		const response = Promise.resolve(method(this.haluka, params, args))
 		response.then((code) => {
 			/* istanbul ignore next */ 
-			if (this.haluka.isRegistered('Events')) {
-				this.haluka.get('Events').fire('Console.Executed', code, cmd, args, params)
+			if (this.haluka.registered('Events')) {
+				this.haluka.resolve<any>('Events').fire('Console.Executed', code, cmd, args, params)
 			}
 		})
         
@@ -78,5 +78,5 @@ export class Console {
 export class CommandException extends Exception {}
 
 export interface ConsoleController extends Function {
-    (haluka: Application, params: Array<string>, argv: Object)
+    (_haluka: Application, _params: Array<string>, _argv: KeyValue)
 }

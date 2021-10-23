@@ -9,6 +9,8 @@ import * as winston from 'winston'
 import { DriverNotFoundException, TransportNotFoundException } from './Exceptions'
 import ILoggerConfig from './ILoggerConfig'
 
+import * as SlackHook from 'winston-slack-webhook-transport'
+
 /**
  * Logger Class
  */
@@ -69,10 +71,8 @@ export class Logger {
 		winston.add(new winston.transports.Http(config))
 	}
 
-	 /* istanbul ignore next */ 
+	/* istanbul ignore next */ 
 	protected slackTransport (config) {
-		
-		const SlackHook = require('winston-slack-webhook-transport')
 		winston.add(new SlackHook(config))
 	}
 

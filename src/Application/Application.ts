@@ -48,12 +48,12 @@ export default class Application extends Container {
 	/**
       * The array of terminating callbacks
       */
-	protected terminatingCallbacks: Array<Function> = []
+	protected terminatingCallbacks: Array<CallableFunction> = []
  
 	/**
       * Autload Definitions
       */
-	protected autoLoaders: Object = {}
+	protected autoLoaders: any = {}
  
 	/**
       * @constructor
@@ -78,6 +78,7 @@ export default class Application extends Container {
       */
 	public version (): string {
 		try {
+			// eslint-disable-next-line
 			return require(this.path('package.json')).version
 		} catch (error) {
 			throw new VersionRetrievalError
@@ -89,7 +90,7 @@ export default class Application extends Container {
       * @param basePath Base path of Haluka Application
       */
 	private registerPaths (basePath: string): void {
-		this.basePath = path.resolve(_.trimEnd(basePath, '\/'))
+		this.basePath = path.resolve(_.trimEnd(basePath, '/'))
 	}
  
 	/**
@@ -122,6 +123,7 @@ export default class Application extends Container {
 	private getAutoLoaders (): void {
 		// Load Auto-Load Definition from Package File, if exists
 		try {
+			// eslint-disable-next-line
 			this.autoLoaders = require(this.path('package.json')).autoLoad
 		} catch (error) {
 			//throw new AutoLoadDefinitionError
@@ -295,7 +297,7 @@ export default class Application extends Container {
       * @param {Function} callback
       * @return {this} this
       */
-	public terminating(callback: Function): ThisType<Application> {
+	public terminating(callback: CallableFunction): ThisType<Application> {
 		this.terminatingCallbacks.push(callback)
 		return this
 	}
@@ -312,6 +314,7 @@ export default class Application extends Container {
 				const loadvar = providerPath.substr(1, providerPath.indexOf('/') - 1) 
 				providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`
 			}
+			// eslint-disable-next-line
 			const providerClass = require(providerPath).default
 			if (!(providerClass instanceof Function)) {
 				throw new FatalException(`Invalid Provider in '${providerPath}' specified in Application Data file.`)

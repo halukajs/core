@@ -15,7 +15,7 @@ export default interface ApplicationData {
     /**
      * Aliases for Providers
      */
-    aliases: Object,
+    aliases: {[key:string]: string},
 
     /**
      * Middlewares that are registered globally for all the routes. 
@@ -25,6 +25,6 @@ export default interface ApplicationData {
     /**
      * Middleware(s) with names which can be registered as per routes in group.
      */
-    namedMiddlewares: Object
+    namedMiddlewares: {[key:string]: any}
     
 }

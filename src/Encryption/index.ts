@@ -60,8 +60,9 @@ export class Encryptor {
 	}
 
 	public decrypt (value: string,  encoding:'utf8' | 'ascii' | 'binary' = 'utf8'): string {
+		let payload
 		try {
-			var payload = JSON.parse(Encryptor.base64Decode(value).toString())
+			payload = JSON.parse(Encryptor.base64Decode(value).toString())
 		} catch (error) {
 			throw new InvalidDecryptionPayloadException('Could not parse payload object.')
 		}
@@ -69,7 +70,7 @@ export class Encryptor {
 			return Object.keys(payload).includes(a)
 		})
 		if (!isObject(payload) || !ret ||  Encryptor.base64Decode(payload['iv'], true).length != Encryptor.supportedAlgos[this.algorithm]) {
-			 throw new InvalidDecryptionPayloadException('The payload is not valid.')
+			throw new InvalidDecryptionPayloadException('The payload is not valid.')
 		}
 		// check MAC from the payload
 		const mac_key = Encryptor.generateKey(this.algorithm)

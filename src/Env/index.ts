@@ -1,4 +1,6 @@
 'use strict'
+
+// eslint-disable-next-line
 const debug = require('debug')('haluka:framework')
 /**
  * @name Env
