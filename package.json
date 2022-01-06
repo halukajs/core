@@ -46,6 +46,7 @@
     "lodash": "^4.17.21",
     "randomstring": "^1.2.1",
     "require-all": "^3.0.0",
+    "validatorjs": "^3.22.1",
     "winston": "^3.3.3",
     "winston-slack-webhook-transport": "^2.1.0"
   }
