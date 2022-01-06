@@ -334,8 +334,6 @@ export default class Application extends Container {
 		}
  
 		this.resolve<any>('Haluka/Core/Events').fire('AppProviders.Resolved')
- 
- 
          
 	}
  
