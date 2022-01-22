@@ -2,7 +2,7 @@
   "name": "@haluka/core",
   "version": "0.1.5",
   "description": "Core engine for haluka",
-  "main": "./build/index.js",
+  "main": "./build/src/index.js",
   "scripts": {
     "build": "tsc",
     "test": "cross-env NODE_ENV=test mocha -r ts-node/register test/**/*.ts",
