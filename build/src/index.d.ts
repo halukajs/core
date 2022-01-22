@@ -1,3 +1,2 @@
-import Application from "./Application/Application";
-import ServiceProvider from "./Application/ServiceProvider";
-export { Application, ServiceProvider };
+export { default as Application } from "./Application/Application";
+export { default as ServiceProvider, IServiceProvider } from "./Application/ServiceProvider";
