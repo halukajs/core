@@ -5,7 +5,7 @@ import { Env } from '../src/Env'
 describe('Env', function () {
 
 	var env = new Env("")
-	env = new Env(require('path').resolve('./test/support/.env.test'))
+	env = new Env(require('path').resolve(__dirname + '/support/.env.test'))
 
 	describe('get()', function () {
 
