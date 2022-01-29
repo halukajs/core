@@ -1,4 +1,3 @@
-import Application from '../Application/Application'
 import ServiceProvider from '../Application/ServiceProvider'
 import { IServiceProvider } from '../Application/ServiceProvider'
 import Validator from '../Validation'
@@ -19,7 +18,7 @@ export default class ValidationServiceProvider extends ServiceProvider implement
 				name: 'Haluka/Core/Validator',
 				alias: 'Validator'
 			}, 
-			content: function (app: Application) {
+			content: function () {
 				return Validator
 			}
 		})

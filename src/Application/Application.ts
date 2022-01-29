@@ -22,6 +22,7 @@ import '../../types/modules'
 import '../Helpers/others'
 import ApplicationData from './ApplicationData'
 import ServiceProvider from './ServiceProvider'
+import { Emitter } from '../Events'
  
 export default class Application extends Container {
     
@@ -54,7 +55,7 @@ export default class Application extends Container {
 	/**
       * Autload Definitions
       */
-	protected autoLoaders: any = {}
+	protected autoLoaders: KeyValue = {}
  
 	/**
       * @constructor
@@ -102,7 +103,7 @@ export default class Application extends Container {
 			provider.register()
 		}
  
-		this.resolve<any>('Haluka/Core/Events').fire('Application.CoreProvidersResolved')
+		this.resolve<Emitter>('Haluka/Core/Events').fire('Application.CoreProvidersResolved')
  
 	}
  
@@ -167,14 +168,14 @@ export default class Application extends Container {
 	/**
       * Checks if application has debug environment
       */
-	 public isDebugging (): boolean {
+	public isDebugging (): boolean {
 		return process.env.NODE_ENV === 'debug'
 	}
 
 	/**
       * Checks if application is in CLI
       */
-	 public isCLI (): boolean {
+	public isCLI (): boolean {
 		return process.env.NODE_ENV === 'cli'
 	}
  
@@ -314,9 +315,9 @@ export default class Application extends Container {
       * Boots the Application with application data.
       * @param {ApplicationData} appData
       */
-	public boot (appData: ApplicationData, callback?: Function) {
+	public boot (appData: ApplicationData, callback?: CallableFunction) {
 		
-		this.resolve<any>('Haluka/Core/Events').fire('Application.BeginBooting')
+		this.resolve<Emitter>('Haluka/Core/Events').fire('Application.BeginBooting')
 
 		// Providers
 		/* istanbul ignore next */
@@ -347,7 +348,7 @@ export default class Application extends Container {
 			callback()
 		}
  
-		this.resolve<any>('Haluka/Core/Events').fire('Application.Booted')
+		this.resolve<Emitter>('Haluka/Core/Events').fire('Application.Booted')
          
 	}
  
