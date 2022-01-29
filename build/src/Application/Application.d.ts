@@ -8,6 +8,7 @@ import { Container } from '@haluka/box';
 import { Exception } from '../Exceptions';
 import { IServiceProvider } from './ServiceProvider';
 import '../../types/modules';
+import '../Helpers/others';
 import ApplicationData from './ApplicationData';
 export default class Application extends Container {
     /**
@@ -77,6 +78,10 @@ export default class Application extends Container {
       * Checks if application has debug environment
       */
     isDebugging(): boolean;
+    /**
+      * Checks if application is in CLI
+      */
+    isCLI(): boolean;
     /**
       * Returns path string relative to base path
       */
@@ -156,7 +161,7 @@ export default class Application extends Container {
       * Boots the Application with application data.
       * @param {ApplicationData} appData
       */
-    boot(appData: ApplicationData): void;
+    boot(appData: ApplicationData, callback?: Function): void;
     /**
       * Registers aliases for providers
       */

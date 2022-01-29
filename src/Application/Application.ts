@@ -19,6 +19,7 @@ import ConfigServiceProvider from '../ServiceProviders/ConfigServiceProvider'
  
 // Global Functions (Nasty Hack)
 import '../../types/modules'
+import '../Helpers/others'
 import ApplicationData from './ApplicationData'
 import ServiceProvider from './ServiceProvider'
  
@@ -101,7 +102,7 @@ export default class Application extends Container {
 			provider.register()
 		}
  
-		this.resolve<any>('Haluka/Core/Events').fire('CoreProviders.Resolved')
+		this.resolve<any>('Haluka/Core/Events').fire('Application.CoreProvidersResolved')
  
 	}
  
@@ -166,8 +167,15 @@ export default class Application extends Container {
 	/**
       * Checks if application has debug environment
       */
-	public isDebugging (): boolean {
+	 public isDebugging (): boolean {
 		return process.env.NODE_ENV === 'debug'
+	}
+
+	/**
+      * Checks if application is in CLI
+      */
+	 public isCLI (): boolean {
+		return process.env.NODE_ENV === 'cli'
 	}
  
 	/**
@@ -306,13 +314,15 @@ export default class Application extends Container {
       * Boots the Application with application data.
       * @param {ApplicationData} appData
       */
-	public boot (appData: ApplicationData) {
- 
+	public boot (appData: ApplicationData, callback?: Function) {
+		
+		this.resolve<any>('Haluka/Core/Events').fire('Application.BeginBooting')
+
 		// Providers
 		/* istanbul ignore next */
 		for (let providerPath of appData.providers) {
 			if (providerPath.startsWith('$')) {
-				const loadvar = providerPath.substr(1, providerPath.indexOf('/') - 1) 
+				const loadvar = providerPath.substring(1, providerPath.indexOf('/')) 
 				providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`
 			}
 
@@ -332,8 +342,12 @@ export default class Application extends Container {
 		for (const alias in appData.aliases) {
 			this.alias(alias, appData.aliases[alias])
 		}
+
+		if (typeof (callback) === 'function') {
+			callback()
+		}
  
-		this.resolve<any>('Haluka/Core/Events').fire('AppProviders.Resolved')
+		this.resolve<any>('Haluka/Core/Events').fire('Application.Booted')
          
 	}
  
@@ -386,4 +400,3 @@ export class VersionRetrievalError extends Exception {
 		super('Cannot retrieve version from package.json')
 	}
 }
- 

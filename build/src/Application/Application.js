@@ -18,6 +18,7 @@ const EnvServiceProvider_1 = require("../ServiceProviders/EnvServiceProvider");
 const ConfigServiceProvider_1 = require("../ServiceProviders/ConfigServiceProvider");
 // Global Functions (Nasty Hack)
 require("../../types/modules");
+require("../Helpers/others");
 const ServiceProvider_1 = require("./ServiceProvider");
 class Application extends box_1.Container {
     /**
@@ -80,7 +81,7 @@ class Application extends box_1.Container {
         for (const provider of this.coreProviders) {
             provider.register();
         }
-        this.resolve('Haluka/Core/Events').fire('CoreProviders.Resolved');
+        this.resolve('Haluka/Core/Events').fire('Application.CoreProvidersResolved');
     }
     /**
       * Set up the Haluka Application
@@ -137,6 +138,12 @@ class Application extends box_1.Container {
       */
     isDebugging() {
         return process.env.NODE_ENV === 'debug';
+    }
+    /**
+      * Checks if application is in CLI
+      */
+    isCLI() {
+        return process.env.NODE_ENV === 'cli';
     }
     /**
       * Returns path string relative to base path
@@ -256,12 +263,13 @@ class Application extends box_1.Container {
       * Boots the Application with application data.
       * @param {ApplicationData} appData
       */
-    boot(appData) {
+    boot(appData, callback) {
+        this.resolve('Haluka/Core/Events').fire('Application.BeginBooting');
         // Providers
         /* istanbul ignore next */
         for (let providerPath of appData.providers) {
             if (providerPath.startsWith('$')) {
-                const loadvar = providerPath.substr(1, providerPath.indexOf('/') - 1);
+                const loadvar = providerPath.substring(1, providerPath.indexOf('/'));
                 providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`;
             }
             // eslint-disable-next-line
@@ -278,7 +286,10 @@ class Application extends box_1.Container {
         for (const alias in appData.aliases) {
             this.alias(alias, appData.aliases[alias]);
         }
-        this.resolve('Haluka/Core/Events').fire('AppProviders.Resolved');
+        if (typeof (callback) === 'function') {
+            callback();
+        }
+        this.resolve('Haluka/Core/Events').fire('AppProviders.Booted');
     }
     /**
       * Registers aliases for providers

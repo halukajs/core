@@ -32,13 +32,15 @@ describe('Haluka', function () {
 		expect(app.isProduction()).to.eq(false)
 		expect(app.isTesting()).to.eq(true)
 		expect(app.isDebugging()).to.eq(false)
+		expect(app.isCLI()).to.eq(false)
+
 
 		app.boot({
 			providers: [],
 			aliases: { DB: 'Haluka/Database'},
 			globalMiddlewares: [],
 			namedMiddlewares: {}
-		})
+		}, () => 0)
 
 		app.terminate()
 
@@ -47,6 +49,13 @@ describe('Haluka', function () {
 	it('shall terminate', function () {
 		var app = new Application('./test')
 		
+		app.boot({
+			providers: [],
+			aliases: { DB: 'Haluka/Database'},
+			globalMiddlewares: [],
+			namedMiddlewares: {}
+		})
+
 		app.terminating(() => {
 			var log: Logger = app.resolve<Logger>('Log')
 			log.log('warn', 'Application is terminating.')
