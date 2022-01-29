@@ -2,7 +2,6 @@
 
 **Core engine for Haluka framework**
 
-[![Node Version][node-image]][npm-link]
 [![npm][npm-version]][npm-link]
 [![License: MIT][license-image]][license-link]
 [![CircleCI][ci-image]][ci-link]
@@ -27,7 +26,6 @@ Crafted with ❤️ by [Robin Panta](https://github.com/hacktivistic).
 #### Contributors
 [List of contributers](https://github.com/halukajs/core/graphs/contributors).
 
-[node-image]: https://img.shields.io/node/v/@haluka/core.svg?style=default
 [npm-version]: https://img.shields.io/npm/v/@haluka/core.svg
 [npm-link]: https://www.npmjs.com/package/@haluka/core
 [downloads]: https://img.shields.io/npm/dt/@haluka/core.svg
