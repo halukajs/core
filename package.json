@@ -1,7 +1,7 @@
 {
   "name": "@haluka/core",
   "version": "1.0.0",
-  "description": "Core engine for haluka",
+  "description": "Core engine for Haluka",
   "main": "./build/src/index.js",
   "scripts": {
     "build": "tsc",
