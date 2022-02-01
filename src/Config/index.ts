@@ -45,7 +45,7 @@ export class Config {
 			this.configPath = configPath
 			this.config = requireAll({
 				dirname: this.configPath,
-				filter: /(.*)\.js$/
+				filter: /(.*)\.(js|ts|json)$/
 			})
 			debug('loaded configs from %s', configPath)
 		} catch (error: any)  /* istanbul ignore next */ {
