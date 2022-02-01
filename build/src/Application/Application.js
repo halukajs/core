@@ -19,7 +19,6 @@ const ConfigServiceProvider_1 = require("../ServiceProviders/ConfigServiceProvid
 // Global Functions (Nasty Hack)
 require("../../types/modules");
 require("../Helpers/others");
-const ServiceProvider_1 = require("./ServiceProvider");
 class Application extends box_1.Container {
     /**
       * @constructor
@@ -279,7 +278,7 @@ class Application extends box_1.Container {
                     throw new Exceptions_1.FatalException(`Invalid Provider in '${providerPath}' specified in Application Data file.`);
                 }
                 const provider = new providerClass(this);
-                if (!(provider instanceof ServiceProvider_1.default))
+                if (!(typeof provider.register === 'function'))
                     throw new Exceptions_1.FatalException(`Service Provider in '${providerPath}' is not a valid Service Provider Class.`);
                 provider.register();
             }
