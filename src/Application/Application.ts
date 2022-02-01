@@ -21,7 +21,6 @@ import ConfigServiceProvider from '../ServiceProviders/ConfigServiceProvider'
 import '../../types/modules'
 import '../Helpers/others'
 import ApplicationData from './ApplicationData'
-import ServiceProvider from './ServiceProvider'
 import { Emitter } from '../Events'
  
 export default class Application extends Container {
@@ -334,7 +333,7 @@ export default class Application extends Container {
 					throw new FatalException(`Invalid Provider in '${providerPath}' specified in Application Data file.`)
 				}
 				const provider = new providerClass(this)
-				if (!(provider instanceof ServiceProvider))
+				if (!(typeof provider.register === 'function'))
 					throw new FatalException(`Service Provider in '${providerPath}' is not a valid Service Provider Class.`)
 	
 				provider.register()

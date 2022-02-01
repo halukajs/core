@@ -7,7 +7,7 @@
 
 import Application from './Application'
 
-export default class ServiceProvider {
+export default class ServiceProvider implements IServiceProvider{
 
 	protected app: Application
 
