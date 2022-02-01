@@ -321,27 +321,31 @@ export default class Application extends Container {
 
 		// Providers
 		/* istanbul ignore next */
-		for (let providerPath of appData.providers) {
-			if (providerPath.startsWith('$')) {
-				const loadvar = providerPath.substring(1, providerPath.indexOf('/')) 
-				providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`
-			}
+		if (appData.providers) {
+			for (let providerPath of appData.providers) {
+				if (providerPath.startsWith('$')) {
+					const loadvar = providerPath.substring(1, providerPath.indexOf('/')) 
+					providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`
+				}
 
-			// eslint-disable-next-line
-			const providerClass = require(providerPath).default
-			if (!(providerClass instanceof Function)) {
-				throw new FatalException(`Invalid Provider in '${providerPath}' specified in Application Data file.`)
+				// eslint-disable-next-line
+				const providerClass = require(providerPath).default
+				if (!(providerClass instanceof Function)) {
+					throw new FatalException(`Invalid Provider in '${providerPath}' specified in Application Data file.`)
+				}
+				const provider = new providerClass(this)
+				if (!(provider instanceof ServiceProvider))
+					throw new FatalException(`Service Provider in '${providerPath}' is not a valid Service Provider Class.`)
+	
+				provider.register()
 			}
-			const provider = new providerClass(this)
-			if (!(provider instanceof ServiceProvider))
-				throw new FatalException(`Service Provider in '${providerPath}' is not a valid Service Provider Class.`)
- 
-			provider.register()
 		}
  
 		// Aliases
-		for (const alias in appData.aliases) {
-			this.alias(alias, appData.aliases[alias])
+		if (appData.aliases) {
+			for (const alias in appData.aliases) {
+				this.alias(alias, appData.aliases[alias])
+			}
 		}
 
 		if (typeof (callback) === 'function') {
