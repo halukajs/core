@@ -8,8 +8,8 @@ global.ucfirst =
 // dd (Dump & Die)
 /* istanbul ignore next */
 global.dd =
-    function () {
-        console.log(...arguments);
+    function (...args) {
+        console.log(...args);
         process.exit(1);
     };
 //# sourceMappingURL=others.js.map

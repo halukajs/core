@@ -30,7 +30,7 @@ export default class Application extends Container {
     /**
       * Autload Definitions
       */
-    protected autoLoaders: any;
+    protected autoLoaders: KeyValue;
     /**
       * @constructor
       *
@@ -161,7 +161,7 @@ export default class Application extends Container {
       * Boots the Application with application data.
       * @param {ApplicationData} appData
       */
-    boot(appData: ApplicationData, callback?: Function): void;
+    boot(appData: ApplicationData, callback?: CallableFunction): void;
     /**
       * Registers aliases for providers
       */

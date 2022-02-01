@@ -16,7 +16,7 @@ class ValidationServiceProvider extends ServiceProvider_1.default {
                 name: 'Haluka/Core/Validator',
                 alias: 'Validator'
             },
-            content: function (app) {
+            content: function () {
                 return Validation_1.default;
             }
         });

@@ -185,19 +185,19 @@ class Application extends box_1.Container {
       * Returns path string relative to storage path
       */
     storagePath(...args) {
-        return this.path('storage', ...args);
+        return this.path('../storage', ...args);
     }
     /**
       * Returns path string relative to system path
       */
     systemPath(...args) {
-        return this.path('system', ...args);
+        return this.path('../system', ...args);
     }
     /**
       * Returns path string relative to test path
       */
     testPath(...args) {
-        return this.path('test', ...args);
+        return this.path('../test', ...args);
     }
     /**
       * Returns path string relative to Commands path
@@ -267,29 +267,34 @@ class Application extends box_1.Container {
         this.resolve('Haluka/Core/Events').fire('Application.BeginBooting');
         // Providers
         /* istanbul ignore next */
-        for (let providerPath of appData.providers) {
-            if (providerPath.startsWith('$')) {
-                const loadvar = providerPath.substring(1, providerPath.indexOf('/'));
-                providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`;
+        if (appData.providers) {
+            for (let providerPath of appData.providers) {
+                if (providerPath.startsWith('$')) {
+                    const loadvar = providerPath.substring(1, providerPath.indexOf('/'));
+                    providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`;
+                }
+                // eslint-disable-next-line
+                const providerClass = require(providerPath).default;
+                if (!(providerClass instanceof Function)) {
+                    throw new Exceptions_1.FatalException(`Invalid Provider in '${providerPath}' specified in Application Data file.`);
+                }
+                const provider = new providerClass(this);
+                if (!(provider instanceof ServiceProvider_1.default))
+                    throw new Exceptions_1.FatalException(`Service Provider in '${providerPath}' is not a valid Service Provider Class.`);
+                provider.register();
             }
-            // eslint-disable-next-line
-            const providerClass = require(providerPath).default;
-            if (!(providerClass instanceof Function)) {
-                throw new Exceptions_1.FatalException(`Invalid Provider in '${providerPath}' specified in Application Data file.`);
-            }
-            const provider = new providerClass(this);
-            if (!(provider instanceof ServiceProvider_1.default))
-                throw new Exceptions_1.FatalException(`Service Provider in '${providerPath}' is not a valid Service Provider Class.`);
-            provider.register();
         }
         // Aliases
-        for (const alias in appData.aliases) {
-            this.alias(alias, appData.aliases[alias]);
+        /* istanbul ignore next */
+        if (appData.aliases) {
+            for (const alias in appData.aliases) {
+                this.alias(alias, appData.aliases[alias]);
+            }
         }
         if (typeof (callback) === 'function') {
             callback();
         }
-        this.resolve('Haluka/Core/Events').fire('AppProviders.Booted');
+        this.resolve('Haluka/Core/Events').fire('Application.Booted');
     }
     /**
       * Registers aliases for providers
