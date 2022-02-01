@@ -225,21 +225,21 @@ export default class Application extends Container {
       * Returns path string relative to storage path
       */
 	public storagePath (...args: Array<string>): string {
-		return this.path('storage', ...args)
+		return this.path('../storage', ...args)
 	}
  
 	/**
       * Returns path string relative to system path
       */
 	public systemPath (...args: Array<string>): string {
-		return this.path('system', ...args)
+		return this.path('../system', ...args)
 	}
  
 	/**
       * Returns path string relative to test path
       */
 	public testPath (...args: Array<string>): string {
-		return this.path('test', ...args)
+		return this.path('../test', ...args)
 	}
  
 	/**
