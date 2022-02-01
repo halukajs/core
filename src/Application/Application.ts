@@ -342,6 +342,7 @@ export default class Application extends Container {
 		}
  
 		// Aliases
+		/* istanbul ignore next */
 		if (appData.aliases) {
 			for (const alias in appData.aliases) {
 				this.alias(alias, appData.aliases[alias])
