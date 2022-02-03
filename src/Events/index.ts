@@ -51,4 +51,22 @@ export class Emitter extends EventEmitter{
 	}
 
 
+	/**
+	 * Fires the event async
+	 * @param event Event name to fire
+	 * @param args Objects to send to listener callback
+	 */
+	public fireAsync (event: string | string[], ...args: Array<any>): Promise<any> {
+		return this.dispatchAsync(event, ...args)
+	}
+
+
+	/**
+	 * Alias of [fireaAsync](#fireAsync)
+	 */
+	public dispatchAsync (event: string | string[], ...args: Array<any>): Promise<any> {
+		return super.emitAsync(event, ...args)
+	}
+
+
 }
