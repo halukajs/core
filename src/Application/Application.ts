@@ -80,7 +80,7 @@ export default class Application extends Container {
 	public version (): string {
 		try {
 			// eslint-disable-next-line
-			return require(this.path('package.json')).version
+			return require(this.path('../package.json')).version
 		} catch (error) {
 			throw new VersionRetrievalError
 		}
@@ -125,7 +125,7 @@ export default class Application extends Container {
 		// Load Auto-Load Definition from Package File, if exists
 		try {
 			// eslint-disable-next-line
-			this.autoLoaders = require(this.path('package.json')).autoLoad
+			this.autoLoaders = require(this.path('../package.json')).autoLoad
 		} catch (error) {
 			//throw new AutoLoadDefinitionError
 		}
