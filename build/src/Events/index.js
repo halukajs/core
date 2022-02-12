@@ -39,6 +39,20 @@ class Emitter extends eventemitter2_1.EventEmitter2 {
     dispatch(event, ...args) {
         return super.emit(event, ...args);
     }
+    /**
+     * Fires the event async
+     * @param event Event name to fire
+     * @param args Objects to send to listener callback
+     */
+    fireAsync(event, ...args) {
+        return this.dispatchAsync(event, ...args);
+    }
+    /**
+     * Alias of [fireaAsync](#fireAsync)
+     */
+    dispatchAsync(event, ...args) {
+        return super.emitAsync(event, ...args);
+    }
 }
 exports.Emitter = Emitter;
 //# sourceMappingURL=index.js.map

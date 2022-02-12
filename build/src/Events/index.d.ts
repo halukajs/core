@@ -28,4 +28,14 @@ export declare class Emitter extends EventEmitter {
      * Alias of [fire](#fire)
      */
     dispatch(event: string | string[], ...args: Array<any>): boolean;
+    /**
+     * Fires the event async
+     * @param event Event name to fire
+     * @param args Objects to send to listener callback
+     */
+    fireAsync(event: string | string[], ...args: Array<any>): Promise<any>;
+    /**
+     * Alias of [fireaAsync](#fireAsync)
+     */
+    dispatchAsync(event: string | string[], ...args: Array<any>): Promise<any>;
 }
