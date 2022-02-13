@@ -80,7 +80,7 @@ export default class Application extends Container {
 	public version (): string {
 		try {
 			// eslint-disable-next-line
-			return require(this.path('../package.json')).version
+			return require(this.path('package.json')).version
 		} catch (error) {
 			throw new VersionRetrievalError
 		}
@@ -92,6 +92,22 @@ export default class Application extends Container {
       */
 	private registerPaths (basePath: string): void {
 		this.basePath = path.resolve(_.trimEnd(basePath, '/'))
+		this.bindPaths()
+	}
+
+	/**
+     * Bind all of the application paths in the container.
+     */
+	protected bindPaths () {
+		this.save('path', this.basePath)
+		this.save('path.app', this.path('app'))
+		this.save('path.config', this.path('config'))
+		this.save('path.resources', this.path('resources'))
+		this.save('path.routes', this.path('routes'))
+		this.save('path.storage', this.path('storage'))
+		this.save('path.system', this.path('system'))
+		this.save('path.test', this.path('test'))
+
 	}
  
 	/**
@@ -125,7 +141,8 @@ export default class Application extends Container {
 		// Load Auto-Load Definition from Package File, if exists
 		try {
 			// eslint-disable-next-line
-			this.autoLoaders = require(this.path('../package.json')).autoLoad
+			this.autoLoaders = require(this.path('package.json')).autoLoad
+			this.autoLoaders['App'] = this.providersPath()
 		} catch (error) {
 			//throw new AutoLoadDefinitionError
 		}
@@ -182,63 +199,56 @@ export default class Application extends Container {
       * Returns path string relative to base path
       */
 	public path (...args: Array<string>): string {
-		return path.join(this.basePath, ...args)
+		return path.join(this.use('path'), ...args)
 	}
  
 	/**
       * Returns path string relative to app path
       */
 	public appPath (...args: Array<string>): string {
-		return this.path('app', ...args)
+		return path.join(this.use('path.app'), ...args)
 	}
  
 	/**
       * Returns path string relative to config path
       */
 	public configPath (...args: Array<string>): string {
-		return this.path('config', ...args)
-	}
- 
-	/**
-      * Returns path string relative to database path
-      */
-	public databasePath (...args: Array<string>): string {
-		return this.path('database', ...args)
+		return path.join(this.use('path.config'), ...args)
 	}
  
 	/**
       * Returns path string relative to resources path
       */
 	public resourcesPath (...args: Array<string>): string {
-		return this.path('resources', ...args)
+		return path.join(this.use('path.resources'), ...args)
 	}
  
 	/**
       * Returns path string relative to routes path
       */
 	public routesPath (...args: Array<string>): string {
-		return this.path('routes', ...args)
+		return path.join(this.use('path.routes'), ...args)
 	}
  
 	/**
       * Returns path string relative to storage path
       */
 	public storagePath (...args: Array<string>): string {
-		return this.path('../storage', ...args)
+		return path.join(this.use('path.storage'), ...args)
 	}
  
 	/**
       * Returns path string relative to system path
       */
 	public systemPath (...args: Array<string>): string {
-		return this.path('../system', ...args)
+		return path.join(this.use('path.system'), ...args)
 	}
  
 	/**
       * Returns path string relative to test path
       */
 	public testPath (...args: Array<string>): string {
-		return this.path('../test', ...args)
+		return path.join(this.use('path.test'), ...args)
 	}
  
 	/**
@@ -318,13 +328,24 @@ export default class Application extends Container {
 		
 		this.resolve<Emitter>('Haluka/Core/Events').fire('Application.BeginBooting')
 
+		// Aliases
+		/* istanbul ignore next */
+		if (appData.aliases) {
+			for (const alias in appData.aliases) {
+				this.alias(alias, appData.aliases[alias])
+			}
+		}
+
 		// Providers
 		/* istanbul ignore next */
 		if (appData.providers) {
 			for (let providerPath of appData.providers) {
 				if (providerPath.startsWith('$')) {
 					const loadvar = providerPath.substring(1, providerPath.indexOf('/')) 
-					providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`
+					if (loadvar)
+						providerPath = `${this.autoLoaders[loadvar]}${providerPath.replace('$' + loadvar, '')}`
+					if (providerPath.startsWith('.'))
+						providerPath = this.path(providerPath.substring(1))
 				}
 
 				// eslint-disable-next-line
@@ -337,14 +358,6 @@ export default class Application extends Container {
 					throw new FatalException(`Service Provider in '${providerPath}' is not a valid Service Provider Class.`)
 	
 				provider.register()
-			}
-		}
- 
-		// Aliases
-		/* istanbul ignore next */
-		if (appData.aliases) {
-			for (const alias in appData.aliases) {
-				this.alias(alias, appData.aliases[alias])
 			}
 		}
 
