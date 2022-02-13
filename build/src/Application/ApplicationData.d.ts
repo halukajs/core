@@ -23,6 +23,6 @@ export default interface ApplicationData {
      * Middleware(s) with names which can be registered as per routes in group.
      */
     namedMiddlewares: {
-        [key: string]: any;
+        [key: string]: Array<string>;
     };
 }

@@ -47,6 +47,10 @@ export default class Application extends Container {
       */
     private registerPaths;
     /**
+     * Bind all of the application paths in the container.
+     */
+    protected bindPaths(): void;
+    /**
       * Registers Core Service Providers
       */
     private registerCoreProviders;
@@ -94,10 +98,6 @@ export default class Application extends Container {
       * Returns path string relative to config path
       */
     configPath(...args: Array<string>): string;
-    /**
-      * Returns path string relative to database path
-      */
-    databasePath(...args: Array<string>): string;
     /**
       * Returns path string relative to resources path
       */
