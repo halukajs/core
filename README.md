@@ -21,7 +21,7 @@ Licensed under [MIT License](LICENSE).
 
 ## Author
 
-Crafted with ❤️ by [Robin Panta](https://github.com/hacktivistic).
+Crafted with ❤️ by [Robin Panta](https://github.com/rawbinary).
 
 #### Contributors
 [List of contributers](https://github.com/halukajs/core/graphs/contributors).
