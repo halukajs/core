@@ -1,6 +1,6 @@
 {
   "name": "@haluka/core",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Core engine for Haluka",
   "main": "./build/src/index.js",
   "scripts": {
@@ -29,26 +29,27 @@
     "@types/chai": "^4.3.1",
     "@types/lodash": "^4.14.182",
     "@types/mocha": "^9.1.1",
-    "@typescript-eslint/eslint-plugin": "^5.26.0",
-    "@typescript-eslint/parser": "^5.26.0",
+    "@types/node": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
     "chai": "^4.3.6",
     "cross-env": "^7.0.3",
-    "eslint": "^8.16.0",
+    "eslint": "^8.20.0",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
-    "ts-node": "^10.8.0",
-    "typescript": "^4.7.2"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
   },
   "dependencies": {
     "@haluka/box": "^1.2.3",
     "debug": "^4.3.4",
     "dotenv": "^16.0.1",
-    "eventemitter2": "^6.4.5",
+    "eventemitter2": "^6.4.6",
     "lodash": "^4.17.21",
     "randomstring": "^1.2.2",
     "require-all": "^3.0.0",
     "validatorjs": "^3.22.1",
-    "winston": "^3.7.2",
+    "winston": "^3.8.1",
     "winston-slack-webhook-transport": "^2.1.0"
   }
 }
